@@ -1,7 +1,8 @@
 # Software Design Document
 
-**SDD Version: ** 1.0
-**Author:** [Author]
+## Document Information
+- SDD Version: 1.0
+- Author: [Author]
 
 ## 1. Introduction
 - Purpose: [Provide a brief overview of the software and its purpose]
