@@ -1,0 +1,41 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-item lines="full" class="ion-padding">
+        <ion-icon color="primary" slot="end" name="close-circle-outline" (click)="dismiss()"></ion-icon>
+        <ion-label>
+          <ion-text color="primary">
+            <h2>Perbarui Profil</h2>
+          </ion-text>
+        </ion-label>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-grid class="ion-no-padding">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-md="6">
+        <div class="ion-padding">
+          <ion-text>Nama</ion-text>
+          <ion-item lines="none" class="input">
+            <ion-input [(ngModel)]="userData.name" required #name="ngModel" placeholder="Kasih nama disini"></ion-input>
+          </ion-item>
+
+          <ion-text>Email</ion-text>
+          <ion-item lines="none" class="input">
+            <ion-input [(ngModel)]="userData.email" [disabled]="true" required #email="ngModel" placeholder="Kasih email disini"></ion-input>
+          </ion-item>
+
+          <ion-text>Bio</ion-text>
+          <ion-item lines="none" class="input">
+            <ion-input [(ngModel)]="userData.bio" required #bio="ngModel" placeholder="Kasih bio disini"></ion-input>
+          </ion-item>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-button color="primary" class="ion-padding" expand="block" (click)="updateData()" [disabled]="bio.invalid || name.invalid || loading">
+      {{loading ? 'Mohon tunggu..':'Perbarui'}}
+    </ion-button>
+  </ion-grid>
+</ion-content>

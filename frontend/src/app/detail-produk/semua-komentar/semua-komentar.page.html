@@ -1,0 +1,43 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-item lines="full" class="ion-padding">
+        <ion-icon color="primary" slot="end" name="close-circle-outline" (click)="dismiss()"></ion-icon>
+        <ion-label>
+          <ion-text color="primary">
+            <h2>Semua Komentar</h2>
+          </ion-text>
+        </ion-label>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid class="ion-no-padding">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-md="6">
+        <ion-card class="rounded-15" *ngFor="let n of listKomentar">
+          <ion-card-content>
+            <ion-item lines="none" color="none" style="margin-left: -20px;">
+              <ion-avatar style="margin-right: 5px;">
+                <img src="{{n.created_by.avatar == null ? 'https://ionicframework.com/docs/img/demos/avatar.svg':(serverImg+n.created_by.avatar)}}" />
+              </ion-avatar>
+              <ion-label>
+                <h2 style="margin-left: 5px;">
+                  {{n.created_by == null ? '-':n.created_by.name}}
+                  <p>{{n.timestamps == null ? '-':n.timestamps.created_at | date:'dd MMM yyyy H:mm'}}</p>
+                </h2>
+              </ion-label>
+              <ion-chip color="primary" *ngIf="n.created_by.id == userData.id">
+                <ion-label>
+                  Anda
+                </ion-label>
+              </ion-chip>
+            </ion-item>
+            <ion-label>{{n.comment}}</ion-label>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

@@ -1,0 +1,55 @@
+
+<ion-content [fullscreen]="true">
+  <ion-fab vertical="top" horizontal="start" slot="fixed">
+    <ion-fab-button color="light" size="small" routerLink="/tabs/tab1">
+      <ion-icon name="arrow-back"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-row style="padding-top: 100px;">
+    <ion-col class="ion-text-center">
+      <img src="./assets/imgs/logo_fipex.png" class="object-bg rounded-1" style="width: 50%;">
+    </ion-col>
+  </ion-row>
+
+  <ion-grid class="ion-no-padding">
+
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-md="6">
+        <div class="item-centered">
+          <h2>Silahkan isi Buku Tamu</h2>
+          <ion-label>
+            <p>Buku Tamu akan ditampilkan dimonitor pameran.</p>
+          </ion-label>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-center" style="margin-top: 50px;">
+      <ion-col size-md="6">
+        <div class="ion-padding">
+          <ion-text color="medium">Kode (Opsional)</ion-text>
+          <ion-item lines="none" class="input">
+            <ion-input [(ngModel)]="guestBookData.kode" placeholder="Ketik disini"></ion-input>
+          </ion-item>
+
+          <ion-text color="medium">Beri komentar anda tentang acara ini</ion-text>
+          <ion-item lines="none" class="input">
+            <ion-textarea [(ngModel)]="guestBookData.comments" required #comments="ngModel" rows="6" placeholder="Kasih komentar disini"></ion-textarea>
+          </ion-item>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid class="ion-padding" style="margin-top: -20px;">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-md="6">
+        <ion-button color="primary" expand="block" [disabled]="comments.invalid || loading" (click)="updateBadge()">
+          Simpan
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

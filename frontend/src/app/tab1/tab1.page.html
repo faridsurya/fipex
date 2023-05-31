@@ -1,0 +1,135 @@
+<ion-content [fullscreen]="true">
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    
+    <ion-row style="padding-top: 15px;">
+      <ion-col class="ion-text-center">
+        <img src="./assets/imgs/logo_fipex.png" class="object-bg rounded-1" style="width: 50%;">
+      </ion-col>
+    </ion-row>
+
+    <ion-grid class="ion-no-padding">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-md="6">
+          <div class="container ion-no-padding">
+            <ion-slides pager="true" [options]="slideOpts" class="ion-padding">
+              <ion-slide *ngFor="let n of banners" (click)="openViewer(n)">
+                <img src="{{n == null ? './assets/imgs/slide.jpg':n}}" class="object-bg rounded-1">
+              </ion-slide>
+            </ion-slides>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    
+    <ion-item lines="none">
+      <ion-label>
+        <h2>Kategori Pameran</h2>
+      </ion-label>
+    </ion-item>
+
+    <ion-slides pager="true" [options]="slideOptsKategori" class="ion-padding">
+      <ion-slide [routerLink]="['/tabs/tab2/0']" routerLinkActive="router-link-active" >
+        <div style="margin-right: 15px;">
+          <img src="./assets/icon/Logo-RE-.svg" style="height: 50px; width: 50px;"/>
+          <p class="fs-10" style="margin-top: -1px;">Semua</p>
+        </div>
+      </ion-slide>
+      <ion-slide *ngFor="let n of listKategori" [routerLink]="['/tabs/tab2',n.id]" routerLinkActive="router-link-active" >
+        <div style="margin-right: 15px;">
+          <img src="{{n.image_url == null ? './assets/icon/Logo-RE-.svg':n.image_url}}" style="height: 50px; width: 50px;"/>
+          <p class="fs-10" style="margin-top: -1px;">{{n.category_name}}</p>
+        </div>
+      </ion-slide>
+    </ion-slides>
+    
+    <ion-item lines="none">
+      <ion-label>
+        <h2>Guest Book</h2>
+      </ion-label>
+      <ion-chip color="primary" routerLink="/list-guestbook">
+        <ion-label>
+          Lihat Semua
+        </ion-label>
+      </ion-chip>
+    </ion-item>
+  
+    <ion-grid class="ion-padding" *ngIf="!loading && listGuestbook.length == 0">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-md="6">
+          <div class="item-centered">
+            <img src="./assets/imgs/logo_fipex.png" style="width: 50%;"> 
+            <ion-label>
+              <p>Belum ada data.</p>
+            </ion-label>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-grid class="ion-no-padding">
+      <ion-row class="ion-justify-content-center">
+        <ion-col size-md="6" *ngIf="!loading">
+          <ion-card *ngFor="let n of listGuestbook.slice(0, 5)" class="rounded-15">
+            <ion-card-content>
+              <ion-item lines="none">
+                <ion-thumbnail style="margin-right: 10px;">
+                  <img src="{{n.created_by.image_url == null ? 'https://ionicframework.com/docs/img/demos/avatar.svg':(serverImg+n.created_by.image_url)}}" (click)="openViewer(n.created_by.image_url == null ? 'https://ionicframework.com/docs/img/demos/avatar.svg':serverImg+n.created_by.image_url)"/>
+                </ion-thumbnail>
+                <ion-label>
+                  
+                  <h2>
+                    <img src="./assets/icon/badge_silver.png" style="width: 5%;" *ngIf="n.badge_type == 'silver'"> 
+                    <img src="./assets/icon/badge_gold.png" style="width: 5%;" *ngIf="n.badge_type == 'gold'"> 
+                    <img src="./assets/icon/badge_platinum.png" style="width: 5%;" *ngIf="n.badge_type == 'platinum'"> 
+                    {{n.created_by == null ? '-':n.created_by.name}}
+                  </h2>
+                  <p><b>{{n.created_by == null ? '-':n.created_by.bio}}</b></p>
+                  <p>{{n.timestamps == null ? '-':n.timestamps.created_at | date:'dd MMM yyyy H:mm'}}</p>
+                  <p class="ion-text-wrap">{{n.comment}}</p>
+                </ion-label>
+                <ion-chip color="primary" *ngIf="n.created_by.id == userData.id">
+                  <ion-label>
+                    Anda
+                  </ion-label>
+                </ion-chip>
+              </ion-item>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+        <ion-col size-md="6" *ngIf="loading">
+          <ion-card *ngFor="let n of [1,2,3,4,5]" class="rounded-15">
+            <ion-card-content>
+              <ion-item lines="none">
+                <ion-thumbnail style="margin-right: 10px;">
+                  <ion-skeleton-text animated></ion-skeleton-text>
+                </ion-thumbnail>
+                <ion-label>
+                  <h2><ion-skeleton-text animated></ion-skeleton-text></h2>
+                  <p><b><ion-skeleton-text animated></ion-skeleton-text></b></p>
+                  <p><ion-skeleton-text animated></ion-skeleton-text></p>
+                  <p class="ion-text-wrap"><ion-skeleton-text animated></ion-skeleton-text></p>
+                </ion-label>
+              </ion-item>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+      
+    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+      <ion-fab-button>
+        <ion-icon name="scan-outline"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-list side="top">
+        <ion-fab-button (click)="scanQrCode('detail')" data-desc="Menilai Produk">
+          <ion-icon name="qr-code-outline"></ion-icon>
+        </ion-fab-button>
+        <ion-fab-button (click)="scanQrCode('bukutamu')" data-desc="Buku Tamu">
+          <ion-icon name="qr-code-outline"></ion-icon>
+        </ion-fab-button>
+      </ion-fab-list>
+    </ion-fab>
+</ion-content>

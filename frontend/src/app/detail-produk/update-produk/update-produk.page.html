@@ -1,0 +1,53 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-item lines="full" class="ion-padding">
+        <ion-icon color="primary" slot="end" name="close-circle-outline" (click)="dismiss()"></ion-icon>
+        <ion-label>
+          <ion-text color="primary">
+            <h2>Perbarui Produk</h2>
+          </ion-text>
+        </ion-label>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-slides pager="true" #slides [options]="slideOpts" *ngIf="detailProduk.thumbnails.length > 0">
+    <ion-slide tappable *ngFor="let n of detailProduk.thumbnails" (click)="openViewer(serverImg+n.image_url)">
+      <img src="{{n.image_url == null ? './assets/imgs/no-product.png':(serverImg+n.image_url)}}" class="object-bg" style="height: 150px;">
+    </ion-slide>
+  </ion-slides>
+
+  <ion-grid>
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-md="6">
+        <div class="item-centered">
+          <ion-button fill="clear" (click)="pilihFoto()">
+            Unggah Thumbnails
+          </ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid class="ion-no-padding">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-md="6">
+        <div class="ion-padding">
+          <ion-text>Judul</ion-text>
+          <ion-item lines="none" class="input">
+            <ion-input [(ngModel)]="detailProduk.name" required #name="ngModel" placeholder="Kasih nama disini"></ion-input>
+          </ion-item>
+
+          <ion-text>Deskripsi</ion-text>
+          <ion-item lines="none" class="input">
+            <ion-textarea [(ngModel)]="detailProduk.description" required #description="ngModel" rows="6" placeholder="Kasih komentar disini"></ion-textarea>
+          </ion-item>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-button color="primary" class="ion-padding" expand="block" (click)="updateData()" [disabled]="description.invalid || name.invalid || loading">
+      {{loading ? 'Mohon tunggu..':'Perbarui'}}
+    </ion-button>
+  </ion-grid>
+</ion-content>

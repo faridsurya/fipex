@@ -1,0 +1,33 @@
+<ion-tabs>
+
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="tab1">
+      <ion-icon name="home-outline"></ion-icon>
+      <ion-label>Home</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="tab2/0">
+      <ion-icon name="archive-outline"></ion-icon>
+      <ion-label>Produk</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button *ngIf="userData.is_admin == '1'"></ion-tab-button>
+
+    <ion-tab-button tab="leaderboards">
+      <ion-icon name="trophy-outline"></ion-icon>
+      <ion-label>Peringkat</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="tab3">
+      <ion-icon name="person-circle-outline"></ion-icon>
+      <ion-label>Profile</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+
+  <ion-fab vertical="bottom" horizontal="center" slot="fixed" *ngIf="userData.is_admin == '1'">
+      <ion-fab-button (click)="scanPeserta()">
+        <ion-icon name="scan-circle-outline"></ion-icon>
+      </ion-fab-button>
+  </ion-fab>
+
+</ion-tabs>

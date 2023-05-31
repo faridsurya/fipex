@@ -1,0 +1,61 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-item lines="full" class="ion-padding">
+        <ion-icon color="primary" slot="end" name="close-circle-outline" (click)="dismiss()"></ion-icon>
+        <ion-label>
+          <ion-text color="primary">
+            <h2>Tambah Member</h2>
+          </ion-text>
+        </ion-label>
+    </ion-item>
+    <ion-searchbar style="margin-top: 14px" mode="ios" showCancelButton="never" [(ngModel)]="searchTerm" (ionChange)="searchChanged($event)" placeholder="Cari pengguna"></ion-searchbar>
+  
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid class="ion-no-padding">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-md="6">
+        <div *ngIf="!loading">
+          <ion-item-sliding *ngFor="let n of listUsers" (click)="jadikanMember(n)">
+            <ion-item detail>
+              <ion-thumbnail slot="start">
+                <img class="img-profil" src="./assets/imgs/blank-profil.png">
+              </ion-thumbnail>
+              <ion-label>
+                <h3>{{n.name}}</h3>
+                <p>{{n.email}}</p>
+              </ion-label>
+              <ion-chip color="primary" *ngIf="n.id == userData.id">
+                <ion-label>
+                  Anda
+                </ion-label>
+              </ion-chip>
+            </ion-item>
+          </ion-item-sliding>
+        </div>
+        <div *ngIf="loading">
+          <ion-item detail *ngFor="let n of [1,2,3,4,5,6,7,8,9,10]">
+            <ion-thumbnail slot="start">
+              <ion-skeleton-text animated></ion-skeleton-text>
+            </ion-thumbnail>
+            <ion-label>
+              <h3><ion-skeleton-text animated></ion-skeleton-text></h3>
+              <p><ion-skeleton-text animated></ion-skeleton-text></p>
+            </ion-label>
+          </ion-item>
+        </div>
+        <div class="item-centered" *ngIf="!loading && listUsers.length == 0">
+          <div style="margin-top: 20px;"></div>
+          <div style="margin-top: 20px;"></div>
+          <img src="./assets/imgs/logo_fipex.png" style="width: 50%;"> 
+          <ion-label>
+            <p>Data tidak ditemukan</p>
+          </ion-label>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

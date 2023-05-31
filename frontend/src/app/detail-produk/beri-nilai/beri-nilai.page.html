@@ -1,0 +1,132 @@
+<!-- <ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-item lines="full" class="ion-padding">
+        <ion-icon color="primary" slot="end" name="close-circle-outline" (click)="dismiss()"></ion-icon>
+        <ion-label>
+          <ion-text color="primary">
+            <h2>Beri Nilai</h2>
+          </ion-text>
+        </ion-label>
+    </ion-item>
+  </ion-toolbar>
+</ion-header> -->
+
+<ion-content class="ion-padding">
+  <ion-item lines="none">
+    <ion-icon color="primary" slot="end" name="close-circle-outline" (click)="dismiss()"></ion-icon>
+    <ion-label>
+      <h2>Badge Produk</h2>
+    </ion-label>
+  </ion-item>
+
+  <ion-card class="rounded-15">
+    <ion-card-content>
+      <ion-row>
+        <ion-col size="4">
+          <ion-item lines="none" style="text-align: center;">
+            <ion-label>
+              <img src="../../assets/icon/silver.svg" style="width: 50%;"/>
+              <p>{{dataBadges?.silver == null ? 0:dataBadges?.silver?.points}}</p>
+            </ion-label>
+          </ion-item>
+        </ion-col>
+
+        <ion-col size="4">
+          <ion-item lines="none" style="text-align: center;">
+            <ion-label>
+              <img src="../../assets/icon/gold.svg" style="width: 50%;"/>
+              <p>{{dataBadges?.gold == null ? 0:dataBadges?.gold?.points}}</p>
+            </ion-label>
+          </ion-item>
+        </ion-col>
+
+        <ion-col size="4">
+          <ion-item lines="none" style="text-align: center;">
+            <ion-label>
+              <img src="../../assets/icon/platinum.svg" style="width: 50%;"/>
+              <p>{{dataBadges?.platinum == null ? 0:dataBadges?.platinum?.points}}</p>
+            </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-item lines="none">
+    <ion-label>
+      <h2>Badge Anda</h2>
+      <p>Sisa badge {{myBadges == null ? '':myBadges.badge_type}} yang anda miliki</p>
+    </ion-label>
+  </ion-item>
+
+  <ion-card class="rounded-15" *ngIf="myBadges.badge_type">
+    <ion-card-content>
+      <ion-row *ngIf="myBadges.badge_type == 'silver'">
+        <ion-col *ngFor="let n of [1,2,3,4,5,6,7,8,9,10]" size="3">
+          <ion-item lines="none">
+            <ion-label>
+              <ion-thumbnail class="{{badgeClicked == n ? 'ion-thumbnail badge pulsate':'ion-thumbnail'}}" (click)="klikMyBadge(myBadges.badge_type, n)">
+                <img src="{{myBadges.badge_count < n ? '../../assets/icon/silver-none.svg':'../../assets/icon/silver.svg'}}"/>
+              </ion-thumbnail>
+            </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="myBadges.badge_type == 'gold'">
+        <ion-col *ngFor="let n of [1,2,3,4,5,6,7,8,9,10]" size="3">
+          <ion-item lines="none">
+            <ion-label>
+              <ion-thumbnail class="{{badgeClicked == n ? 'ion-thumbnail badge pulsate':'ion-thumbnail'}}" (click)="klikMyBadge(myBadges.badge_type, n)">
+                <img src="{{myBadges.badge_count < n ? '../../assets/icon/gold-none.svg':'../../assets/icon/gold.svg'}}"/>
+              </ion-thumbnail>
+            </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="myBadges.badge_type == 'platinum'">
+        <ion-col *ngFor="let n of [1,2,3,4,5]" size="3">
+          <ion-item lines="none">
+            <ion-label>
+              <ion-thumbnail class="{{badgeClicked == n ? 'ion-thumbnail badge pulsate':'ion-thumbnail'}}" (click)="klikMyBadge(myBadges.badge_type, n)">
+                <img src="{{myBadges.badge_count < n ? '../../assets/icon/platinum-none.svg':'../../assets/icon/platinum.svg'}}"/>
+              </ion-thumbnail>
+            </ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+  
+  <div style="padding-left: 15px;">
+    <p *ngIf="myBadges.badge_count == 0" class="error-msg"><i>Badge anda sudah habis</i></p>
+  </div>
+
+  <ion-row class="customInfoCss" *ngIf="myBadges.badge_type == null">
+    <ion-col class="col-icon">
+      <img src="../../assets/icon/info-blue.png" class="mr-3" alt="Sample Image">
+    </ion-col>
+    <ion-col>Silahkan lakukan pengisian buku tamu untuk mendapatkan badge dulu ya agar bisa memberikan nilai ke produk.</ion-col>
+  </ion-row>
+
+  <ion-item lines="none">
+    <ion-label>
+      <h2>Komentar</h2>
+    </ion-label>
+  </ion-item>
+  <ion-grid class="ion-no-padding">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-md="6">
+        <div class="ion-padding">
+          <ion-item lines="none" class="input">
+            <ion-textarea [(ngModel)]="data.comment" required #comment="ngModel" [disabled]="myBadges.badge_type == null || myBadges.badge_count == 0" rows="6" placeholder="Kasih komentar disini"></ion-textarea>
+          </ion-item>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-button color="primary" expand="block" (click)="simpan()" [disabled]="comment.invalid || hasGivenData.has_given || !canSendScore || loading || myBadges.badge_type == null || myBadges.badge_count == 0">
+    {{hasGivenData.has_given ? 'Nilai sudah diberikan':'Simpan'}}
+  </ion-button>
+</ion-content>

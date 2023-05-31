@@ -1,0 +1,6 @@
+{
+	"appId": "com.fipex.app",
+	"appName": "FipexApp",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}

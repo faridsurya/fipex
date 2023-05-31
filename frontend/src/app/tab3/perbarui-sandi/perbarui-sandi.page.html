@@ -1,0 +1,35 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-item lines="full" class="ion-padding">
+        <ion-icon color="primary" slot="end" name="close-circle-outline" (click)="dismiss()"></ion-icon>
+        <ion-label>
+          <ion-text color="primary">
+            <h2>Perbarui Sandi</h2>
+          </ion-text>
+        </ion-label>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-grid class="ion-no-padding">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-md="6">
+        <div class="ion-padding">
+          <ion-text>Password</ion-text>
+          <ion-item lines="none" class="input">
+            <ion-input [(ngModel)]="userData.password2" required #password="ngModel" minlength="8" placeholder="Masukkan password" type="{{type}}"></ion-input>
+            <ion-icon name="{{type == 'password' ? 'eye-outline':'eye-off-outline'}}" (click)="show()" slot="end" color="medium"></ion-icon>
+          </ion-item>
+          <div class="error-msg" *ngIf="password.invalid">
+            Minimal 8 digit
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-button color="primary" class="ion-padding" expand="block" (click)="updateData()" [disabled]="password.invalid || loading">
+      {{loading ? 'Mohon tunggu..':'Perbarui'}}
+    </ion-button>
+  </ion-grid>
+</ion-content>

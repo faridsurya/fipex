@@ -1,0 +1,60 @@
+
+<ion-content [fullscreen]="true">
+  <ion-fab vertical="top" horizontal="start" slot="fixed">
+    <ion-fab-button color="light" size="small" routerLink="/tabs/tab2/0">
+      <ion-icon name="arrow-back"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-row style="padding-top: 100px;">
+    <ion-col class="ion-text-center">
+      <img src="./assets/imgs/logo_fipex.png" class="object-bg rounded-1" style="width: 50%;">
+    </ion-col>
+  </ion-row>
+
+  <ion-grid class="ion-no-padding">
+
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-md="6">
+        <div class="item-centered">
+          <h2>Masuk</h2>
+          <ion-label>
+            <p>Dengan masuk ke akun kamu bisa memberikan nilai ke produk favoritmu</p>
+          </ion-label>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-center" style="margin-top: 50px;">
+      <ion-col size-md="6">
+        <div class="ion-padding">
+
+          <ion-text color="medium">Email</ion-text>
+          <ion-item lines="none" class="input">
+            <ion-input [(ngModel)]="userData.email" required #email="ngModel" placeholder="Masukkan email" type="email"></ion-input>
+          </ion-item>
+
+          <ion-text color="medium">Password</ion-text>
+          <ion-item lines="none" class="input">
+            <ion-input [(ngModel)]="userData.password" required #password="ngModel" placeholder="Masukkan password" type="{{type}}"></ion-input>
+            <ion-icon name="{{type == 'password' ? 'eye-outline':'eye-off-outline'}}" (click)="show()" slot="end" color="medium"></ion-icon>
+          </ion-item>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid class="ion-padding" style="margin-top: -20px;">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-md="6">
+        <ion-button color="primary" expand="block" [disabled]="email.invalid || password.invalid || loading" (click)="login()">
+          {{loading ? 'Mohon tunggu..':'Masuk'}}
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div style="text-align: center;">
+    <ion-button class="ion-text-capitalize" fill="clear" size="small" [routerLink]="['/auth/buat-akun']" routerLinkActive="router-link-active">Belum Punya Akun?</ion-button>
+  </div>
+
+</ion-content>

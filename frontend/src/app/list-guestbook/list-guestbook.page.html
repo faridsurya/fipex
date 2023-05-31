@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-back-button slot="start"></ion-back-button>
+    <ion-title>Guestbook</ion-title>
+  </ion-toolbar>
+  <ion-searchbar style="margin-top: 14px" mode="ios" showCancelButton="never" [(ngModel)]="searchTerm" (ionChange)="searchChanged($event)" placeholder="Cari data"></ion-searchbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
+  <ion-grid class="ion-padding" *ngIf="!loading && listGuestbook.length == 0">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-md="6">
+        <div class="item-centered">
+          <img src="./assets/imgs/logo_fipex.png" style="width: 50%;"> 
+          <ion-label>
+            <p>Belum ada data.</p>
+          </ion-label>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  
+  <ion-grid class="ion-no-padding">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-md="6" *ngIf="!loading">
+        <ion-card *ngFor="let n of listGuestbook" class="rounded-15">
+          <ion-card-content>
+            <ion-item lines="none">
+              <ion-thumbnail style="margin-right: 10px;">
+                <img src="{{n.created_by.image_url == null ? 'https://ionicframework.com/docs/img/demos/avatar.svg':(serverImg+n.created_by.image_url)}}" (click)="openViewer(n.created_by.image_url == null ? 'https://ionicframework.com/docs/img/demos/avatar.svg':serverImg+n.created_by.image_url)"/>
+              </ion-thumbnail>
+              <ion-label>
+                <h2 class="ion-text-wrap">
+                  <img src="./assets/icon/badge_silver.png" style="width: 5%;" *ngIf="n.badge_type == 'silver'"> 
+                  <img src="./assets/icon/badge_gold.png" style="width: 5%;" *ngIf="n.badge_type == 'gold'"> 
+                  <img src="./assets/icon/badge_platinum.png" style="width: 5%;" *ngIf="n.badge_type == 'platinum'"> 
+                  {{n.created_by == null ? '-':n.created_by.name}}
+                </h2>
+                <p class="ion-text-wrap"><b>{{n.created_by == null ? '-':n.created_by.bio}}</b></p>
+                <p>{{n.timestamps == null ? '-':n.timestamps.created_at | date:'dd MMM yyyy H:mm'}}</p>
+                <p class="ion-text-wrap">{{n.comment}}</p>
+              </ion-label>
+              <ion-chip color="primary" *ngIf="n.created_by.id == userData.id">
+                <ion-label>
+                  Anda
+                </ion-label>
+              </ion-chip>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size-md="6" *ngIf="loading">
+        <ion-card *ngFor="let n of [1,2,3,4,5]" class="rounded-15">
+          <ion-card-content>
+            <ion-item lines="none">
+              <ion-thumbnail style="margin-right: 10px;">
+                <ion-skeleton-text animated></ion-skeleton-text>
+              </ion-thumbnail>
+              <ion-label>
+                <h2><ion-skeleton-text animated></ion-skeleton-text></h2>
+                <p><b><ion-skeleton-text animated></ion-skeleton-text></b></p>
+                <p><ion-skeleton-text animated></ion-skeleton-text></p>
+                <p class="ion-text-wrap"><ion-skeleton-text animated></ion-skeleton-text></p>
+              </ion-label>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

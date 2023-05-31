@@ -1,0 +1,177 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
+  <ion-grid class="ion-no-padding">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-md="6">
+
+        <div class="bg-primary"></div>
+        <div class="ion-padding">
+            <ion-row class="card-profil" *ngIf="!loading">
+              <ion-col class="ion-text-center">
+                <img *ngIf="!isLoggedIn" src="./assets/imgs/blank-profil.png" class="img-profil">
+                <img *ngIf="isLoggedIn" src="{{userData.image_url == null ? './assets/imgs/blank-profil.png':(serverImg+userData.image_url)}}" class="img-profil">
+                <br>
+                <ion-button fill="clear" (click)="pilihFoto()" *ngIf="isLoggedIn">
+                  Unggah foto
+                </ion-button>
+                <ion-label>
+                  <h2>{{isLoggedIn ? userData.name:'Tamu'}}</h2>
+                  <h2>{{isLoggedIn ? userData.email:''}}</h2>
+                  <p>{{isLoggedIn ? userData.bio:''}}</p>
+                </ion-label>
+              </ion-col>
+            </ion-row>
+
+            <ion-row class="card-profil" *ngIf="loading">
+              <ion-col class="ion-text-center">
+              <ion-thumbnail style="margin-right: 10px;">
+                <ion-skeleton-text animated></ion-skeleton-text>
+              </ion-thumbnail>
+                <br>
+                <ion-label>
+                  <h2><ion-skeleton-text animated></ion-skeleton-text></h2>
+                  <h2><ion-skeleton-text animated></ion-skeleton-text></h2>
+                  <p><ion-skeleton-text animated></ion-skeleton-text></p>
+                </ion-label>
+              </ion-col>
+            </ion-row>
+        </div>
+
+        <div style="position: relative; top: -110px;" *ngIf="!loading">
+          <ion-card *ngIf="isLoggedIn && userData.is_admin == '1'" class="rounded-15" (click)="pesertaFiTalks()">
+            <ion-item lines="none" detail>
+              <ion-icon slot="start" name="people-outline"></ion-icon>
+              <ion-label>
+                <h3>Peserta Fi-Talks</h3>
+              </ion-label>
+            </ion-item>
+          </ion-card>
+
+          <ion-card *ngIf="isLoggedIn" class="rounded-15" (click)="openCardBadge()">
+            <ion-item lines="none" detail>
+              <ion-icon slot="start" name="ribbon-outline"></ion-icon>
+              <ion-label>
+                <h3>Informasi Badge</h3>
+              </ion-label>
+            </ion-item>
+          </ion-card>
+
+          <ion-card class="rounded-15" *ngIf="myBadges.badge_type && showBadge">
+            <ion-card-content>
+              <ion-row *ngIf="myBadges.badge_type == 'silver'">
+                <ion-col *ngFor="let n of [1,2,3,4,5,6,7,8,9,10]" size="3">
+                  <ion-item lines="none">
+                    <ion-label>
+                      <ion-thumbnail class="ion-thumbnail">
+                        <img src="{{myBadges.badge_count < n ? '../../assets/icon/silver-none.svg':'../../assets/icon/silver.svg'}}"/>
+                      </ion-thumbnail>
+                    </ion-label>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+        
+              <ion-row *ngIf="myBadges.badge_type == 'gold'">
+                <ion-col *ngFor="let n of [1,2,3,4,5,6,7,8,9,10]" size="3">
+                  <ion-item lines="none">
+                    <ion-label>
+                      <ion-thumbnail class="ion-thumbnail">
+                        <img src="{{myBadges.badge_count < n ? '../../assets/icon/gold-none.svg':'../../assets/icon/gold.svg'}}"/>
+                      </ion-thumbnail>
+                    </ion-label>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+        
+              <ion-row *ngIf="myBadges.badge_type == 'platinum'">
+                <ion-col *ngFor="let n of [1,2,3,4,5]" size="3">
+                  <ion-item lines="none">
+                    <ion-label>
+                      <ion-thumbnail class="ion-thumbnail">
+                        <img src="{{myBadges.badge_count < n ? '../../assets/icon/platinum-none.svg':'../../assets/icon/platinum.svg'}}"/>
+                      </ion-thumbnail>
+                    </ion-label>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+            </ion-card-content>
+          </ion-card>
+
+          <ion-card *ngIf="isLoggedIn" class="rounded-15" (click)="perbaruiProfil()">
+            <ion-item lines="none" detail>
+              <ion-icon slot="start" name="settings-outline"></ion-icon>
+              <ion-label>
+                <h3>Perbarui Profil</h3>
+              </ion-label>
+            </ion-item>
+          </ion-card>
+
+          <ion-card *ngIf="isLoggedIn" class="rounded-15" (click)="perbaruiSandi()">
+            <ion-item lines="none" detail>
+              <ion-icon slot="start" name="key-outline"></ion-icon>
+              <ion-label>
+                <h3>Keamanan</h3>
+              </ion-label>
+            </ion-item>
+          </ion-card>
+
+          <ion-card *ngIf="isLoggedIn" class="rounded-15" (click)="logout()">
+            <ion-item lines="none" detail>
+              <ion-icon slot="start" name="log-out-outline"></ion-icon>
+              <ion-label>
+                <h3>Keluar</h3>
+              </ion-label>
+            </ion-item>
+          </ion-card>
+
+          <div class="item-centered ion-padding" style="padding-top: 20%; padding-bottom: 20%;" *ngIf="!isLoggedIn">
+            <img src="./assets/imgs/logo_fipex.png" style="width: 50%;"> 
+            <ion-label>
+              <p>Silahkan masuk ke akun anda.</p>
+            </ion-label>
+          </div>
+
+          <ion-card *ngIf="!isLoggedIn" class="rounded-15" [routerLink]="['/auth/login']" routerLinkActive="router-link-active" >
+            <ion-item lines="none" detail>
+              <ion-icon slot="start" name="log-in-outline"></ion-icon>
+              <ion-label>
+                <h3>Login</h3>
+              </ion-label>
+            </ion-item>
+          </ion-card>
+        </div>
+
+        <div style="position: relative; top: -110px;" *ngIf="loading">
+          <ion-card *ngIf="isLoggedIn" class="rounded-15">
+            <ion-item lines="none" detail>
+              <ion-skeleton-text animated></ion-skeleton-text>
+              <ion-label>
+                <h3><ion-skeleton-text animated></ion-skeleton-text></h3>
+              </ion-label>
+            </ion-item>
+          </ion-card>
+
+          <ion-card *ngIf="isLoggedIn" class="rounded-15">
+            <ion-item lines="none" detail>
+              <ion-skeleton-text animated></ion-skeleton-text>
+              <ion-label>
+                <h3><ion-skeleton-text animated></ion-skeleton-text></h3>
+              </ion-label>
+            </ion-item>
+          </ion-card>
+
+          <ion-card *ngIf="isLoggedIn" class="rounded-15">
+            <ion-item lines="none" detail>
+              <ion-skeleton-text animated></ion-skeleton-text>
+              <ion-label>
+                <h3><ion-skeleton-text animated></ion-skeleton-text></h3>
+              </ion-label>
+            </ion-item>
+          </ion-card>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

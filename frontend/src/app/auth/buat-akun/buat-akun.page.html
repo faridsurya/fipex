@@ -1,0 +1,87 @@
+
+<ion-content [fullscreen]="true">
+  <ion-fab vertical="top" horizontal="start" slot="fixed">
+    <ion-fab-button color="light" size="small" routerLink="/auth/login">
+      <ion-icon name="arrow-back"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-row style="padding-top: 100px;">
+    <ion-col class="ion-text-center">
+      <img src="./assets/imgs/logo_fipex.png" class="object-bg rounded-1" style="width: 50%;">
+    </ion-col>
+  </ion-row>
+
+  <ion-grid class="ion-no-padding">
+
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-md="6">
+        <div class="item-centered">
+          <h2>Buat Akun Tamu</h2>
+          <ion-label>
+            <p>Akun ini hanya untuk jadi tamu pameran</p>
+          </ion-label>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row style="margin-top: 50px;">
+      <ion-col class="ion-text-center">
+        <img src="{{userData.image == null ? './assets/imgs/blank-profil.png':(userData.image)}}" class="img-profil">
+        <br>
+        <ion-button fill="clear" (click)="pilihFoto()">
+          Unggah foto
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-md="6">
+        <div class="ion-padding">
+          <ion-text color="medium">Nama lengkap</ion-text>
+          <ion-item lines="none" class="input">
+            <ion-input [(ngModel)]="userData.name" required #name="ngModel" placeholder="Ketik disini"></ion-input>
+          </ion-item>
+
+          <ion-text color="medium">Email</ion-text>
+          <ion-item lines="none" class="input">
+            <ion-input [(ngModel)]="userData.email" required #email="ngModel" placeholder="Masukkan email" type="email"></ion-input>
+          </ion-item>
+
+          <ion-text color="medium">Bio</ion-text>
+          <ion-item lines="none" class="input">
+            <ion-input [(ngModel)]="userData.bio" required #bio="ngModel" placeholder="Ketik disini"></ion-input>
+          </ion-item>
+
+          <ion-text color="medium">Password</ion-text>
+          <ion-item lines="none" class="input">
+            <ion-input [(ngModel)]="userData.password" required #password="ngModel" minlength="8" placeholder="Masukkan password" type="{{type}}"></ion-input>
+            <ion-icon name="{{type == 'password' ? 'eye-outline':'eye-off-outline'}}" (click)="show()" slot="end" color="medium"></ion-icon>
+          </ion-item>
+          <div class="error-msg" *ngIf="password.invalid">
+            Minimal 8 digit
+          </div>
+
+          <!-- <ion-text color="medium">Beri komentar anda tentang acara ini</ion-text>
+          <ion-item lines="none" class="input">
+            <ion-textarea [(ngModel)]="userData.comments" required #comments="ngModel" rows="6" placeholder="Kasih komentar disini"></ion-textarea>
+          </ion-item> -->
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid class="ion-padding" style="margin-top: -20px;">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-md="6">
+        <ion-button color="primary" expand="block" [disabled]="name.invalid || email.invalid || password.invalid || bio.invalid || loading" (click)="buatAkun()">
+          {{loading ? 'Mohon tunggu..':'Simpan'}}
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div style="text-align: center;">
+    <ion-button class="ion-text-capitalize" fill="clear" size="small" [routerLink]="['/auth/login']" routerLinkActive="router-link-active">Sudah Punya Akun?</ion-button>
+  </div>
+
+</ion-content>

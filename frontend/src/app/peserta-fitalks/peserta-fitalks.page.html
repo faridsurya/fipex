@@ -1,0 +1,140 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-back-button slot="start"></ion-back-button>
+    <ion-title>Peserta Fi-Talks</ion-title>
+  </ion-toolbar>
+  <ion-searchbar style="margin-top: 14px" mode="ios" showCancelButton="never" [(ngModel)]="searchTerm" (ionChange)="searchChanged($event)" placeholder="Cari peserta"></ion-searchbar>
+  <ion-row style="margin-left: 10px;">
+    <ion-col>
+      <ion-label>
+        Hadir: 
+      </ion-label>
+      <ion-chip color="primary">
+        <ion-label>
+          {{jumlahHadir}}
+        </ion-label>
+      </ion-chip>
+    </ion-col>
+    <ion-col>
+      <ion-label>
+        Belum Hadir: 
+      </ion-label>
+      <ion-chip color="danger">
+        <ion-label>
+          {{jumlahBelumHadir}}
+        </ion-label>
+      </ion-chip>
+    </ion-col>
+    <ion-col size="2">
+      <ion-chip color="secondary" style="text-align: center;" (click)="presentPopover($event)">
+        <ion-label>
+          <ion-icon name="filter-outline"></ion-icon>
+        </ion-label>
+      </ion-chip>
+    </ion-col>
+  </ion-row>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
+  <ion-grid class="ion-padding" *ngIf="!loading && listFitalks.length == 0">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-md="6">
+        <div class="item-centered">
+          <img src="./assets/imgs/logo_fipex.png" style="width: 50%;"> 
+          <ion-label>
+            <p>Belum ada data.</p>
+          </ion-label>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  
+  <ion-grid class="ion-no-padding">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-md="6" *ngIf="!loading && showData == 'semua'">
+        <ion-card *ngFor="let n of listFitalks" class="rounded-15">
+          <ion-card-content>
+            <ion-item lines="none">
+              <ion-label>
+                <h2>{{n.name == null ? '-':n.name}}</h2>
+                <p class="ion-text-wrap"><b>{{n.institution == null ? '-':n.institution}}</b></p>
+                <p class="ion-text-wrap">{{n.profession}}</p>
+                <p>{{n.phone == null ? '-':n.phone}}</p>
+                <p class="ion-text-wrap">{{n.email}}</p>
+              </ion-label>
+              <ion-chip color="{{n.alreadyPresent == 0 ? 'danger':'primary'}}">
+                <ion-label>
+                  {{n.alreadyPresent == 0 ? 'Belum Hadir':'Hadir'}}
+                </ion-label>
+              </ion-chip>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size-md="6" *ngIf="!loading && showData == 'hadir'">
+        <ion-card *ngFor="let n of jumlahH" class="rounded-15">
+          <ion-card-content>
+            <ion-item lines="none">
+              <ion-label>
+                <h2>{{n.name == null ? '-':n.name}}</h2>
+                <p class="ion-text-wrap"><b>{{n.institution == null ? '-':n.institution}}</b></p>
+                <p class="ion-text-wrap">{{n.profession}}</p>
+                <p>{{n.phone == null ? '-':n.phone}}</p>
+                <p class="ion-text-wrap">{{n.email}}</p>
+              </ion-label>
+              <ion-chip color="{{n.alreadyPresent == 0 ? 'danger':'primary'}}">
+                <ion-label>
+                  {{n.alreadyPresent == 0 ? 'Belum Hadir':'Hadir'}}
+                </ion-label>
+              </ion-chip>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size-md="6" *ngIf="!loading && showData == 'belumhadir'">
+        <ion-card *ngFor="let n of jumlahB" class="rounded-15">
+          <ion-card-content>
+            <ion-item lines="none">
+              <ion-label>
+                <h2>{{n.name == null ? '-':n.name}}</h2>
+                <p class="ion-text-wrap"><b>{{n.institution == null ? '-':n.institution}}</b></p>
+                <p class="ion-text-wrap">{{n.profession}}</p>
+                <p>{{n.phone == null ? '-':n.phone}}</p>
+                <p class="ion-text-wrap">{{n.email}}</p>
+              </ion-label>
+              <ion-chip color="{{n.alreadyPresent == 0 ? 'danger':'primary'}}">
+                <ion-label>
+                  {{n.alreadyPresent == 0 ? 'Belum Hadir':'Hadir'}}
+                </ion-label>
+              </ion-chip>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size-md="6" *ngIf="loading">
+        <ion-card *ngFor="let n of [1,2,3,4,5]" class="rounded-15">
+          <ion-card-content>
+            <ion-item lines="none">
+              <ion-thumbnail style="margin-right: 10px;">
+                <ion-skeleton-text animated></ion-skeleton-text>
+              </ion-thumbnail>
+              <ion-label>
+                <h2><ion-skeleton-text animated></ion-skeleton-text></h2>
+                <p><b><ion-skeleton-text animated></ion-skeleton-text></b></p>
+                <p><ion-skeleton-text animated></ion-skeleton-text></p>
+                <p class="ion-text-wrap"><ion-skeleton-text animated></ion-skeleton-text></p>
+              </ion-label>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

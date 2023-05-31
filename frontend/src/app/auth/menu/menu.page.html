@@ -1,0 +1,43 @@
+
+<ion-content [fullscreen]="true">
+  <ion-fab vertical="top" horizontal="start" slot="fixed">
+    <ion-fab-button color="light" size="small" routerLink="/tabs/tab2/0">
+      <ion-icon name="arrow-back"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-row style="padding-top: 100px;">
+    <ion-col class="ion-text-center">
+      <img src="./assets/imgs/logo_fipex.png" class="object-bg rounded-1" style="width: 50%;">
+    </ion-col>
+  </ion-row>
+
+  <ion-grid class="ion-no-padding">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-md="6">
+        <div class="item-centered">
+          <h2>Buat Akun</h2>
+          <ion-label>
+            <p>Dengan membuat akun kamu bisa memberikan nilai ke produk favoritmu</p>
+          </ion-label>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid class="ion-padding" style="margin-top: 100px;">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-md="6">
+        <ion-button color="primary" expand="block" [routerLink]="['/tabs/tab1']" routerLinkActive="router-link-active" >
+          Cuma Tamu
+        </ion-button>
+        <ion-button color="primary" expand="block" [routerLink]="['/auth/buat-akun']" routerLinkActive="router-link-active" >
+          Jadi Member
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div style="text-align: center;">
+    <ion-button class="ion-text-capitalize" fill="clear" size="small" [routerLink]="['/auth/login']" routerLinkActive="router-link-active">Sudah Punya Akun?</ion-button>
+  </div>
+
+</ion-content>

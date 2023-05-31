@@ -1,0 +1,69 @@
+
+<ion-content [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- <ion-searchbar style="margin-top: 14px" mode="ios" showCancelButton="never" [(ngModel)]="searchTerm" (ionChange)="searchChanged($event)" placeholder="Cari produk"></ion-searchbar> -->
+  <ion-slides pager="true" [options]="slideOptsKategori" class="ion-padding">
+    <ion-slide *ngFor="let n of listKategori" (click)="showList(n.id)">
+      <div style="margin-right: 15px;">
+        <img src="{{n.image_url == null ? './assets/icon/Logo-RE-.svg':n.image_url}}" style="height: 50px; width: 50px;"/>
+        <p class="fs-10" style="margin-top: -1px;">{{n.category_name}}</p>
+        <div class="hr" *ngIf="catSelected == n.id"></div>
+      </div>
+    </ion-slide>
+  </ion-slides>
+
+  <div class="hr"></div>
+    
+  <ion-item lines="none">
+    <ion-label>
+      <h2>Papan Peringkat</h2>
+    </ion-label>
+  </ion-item>
+
+  <!-- Produk -->
+  <div class="pins" *ngIf="!loading && catSelected">
+    <ion-card *ngFor="let n of leaderboards[catSelected]" class="rounded-15 ion-padding" [routerLink]="['/detail-produk', n.id]">
+      <img src="{{n.thumbnails[0] == null ? './assets/imgs/no-product.png':(serverImg+n.thumbnails[0]?.image_url)}}" class="object-bg" style="height: 150px;">
+      <p class="points-info">Total Points: {{n.total_points}}</p>
+      <ion-card-content>
+        <h2>{{n.name}}</h2>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <div class="pins" *ngIf="loading">
+    <ion-card *ngFor="let n of [1,2,3,4]" class="rounded-15 ion-padding">
+      <ion-skeleton-text animated class="object-bg" style="height: 150px;"></ion-skeleton-text>
+      <ion-card-content>
+        <h2>
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </h2>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll> -->
+  <!-- End Produk -->
+  
+  <ion-grid class="ion-padding" *ngIf="!catSelected && !loading">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size-md="6">
+        <div class="item-centered">
+          <img src="./assets/imgs/logo_fipex.png" style="width: 50%;"> 
+          <ion-label>
+            <p>Belum ada data.</p>
+          </ion-label>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
