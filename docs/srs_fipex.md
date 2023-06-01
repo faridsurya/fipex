@@ -99,7 +99,7 @@ User confirmation (e.g., password, verification)
 Outputs:
 Success message or error notification
 
-3.1.5 Integration with External Authentication Providers
+#### 3.1.5 Integration with External Authentication Providers
 Description:
 The system should provide integration with external authentication providers (e.g., Google, Facebook, GitHub) to allow users to authenticate and access the system using their accounts from these providers.
 
